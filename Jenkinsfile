@@ -1,13 +1,12 @@
 pipeline {
     agent any
     stages {
-        steps {
-            sh 'echo "Hello World"'
-            sh '''
-                echo "Multiline shell steps work as well"
-                ls -lah
-            '''
+        stage('Upload to AWS') {
+            steps {
+                withAWS(credentials:'aws_static') {
+                    s3Upload(file:'index.html', bucket:'jenkinsbucket6632', path:'index.html')
+                }
+            }
         }
     }
 }
-
